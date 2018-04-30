@@ -1,0 +1,136 @@
+<h3> <strong> Search For Patients Using <a href="http://ehr.hdap.gatech.edu:8080/gt-fhir-webapp/" target="_blank"> FHIR server</a> </strong></h3>
+
+
+<label> <strong> Last Name: </strong>
+  <input #lastName />
+</label>
+
+<button (click)="clearSearch(); doSearch(lastName.value)">Search</button>
+
+<h3 *ngIf="showSearchResults"> <strong> Patients Search Results (API returns top 50 record, please click on patient to execute LFT Interpretation analysis) </strong> </h3>
+<h3 *ngIf="showNoSearchResults"> <strong> No Patients Found, Please Try Different Search Criteria </strong> </h3>
+<ul class="search">
+  <li *ngFor="let item of searchResults">
+    <a (click)="clearObservations(); showObservationResults(item)">
+      <span class="badge">{{item.patientId || -1 }}</span>
+      <span> {{item.firstName}}  {{item.lastName || -1 }} </span>
+    </a>
+  </li>
+</ul>
+
+<!--
+<h3 *ngIf="showObservationsResults"> <b> LFT Observations for Patient</b> {{ selectedPatient.lastName }}</h3>
+<ul class="search">
+  <li *ngFor="let item of observationsResults">
+    <a (click)="showObservationResults(item.patient.resource.id)">
+      <span>{{ item.loincCode }}</span>
+      <span>{{item.testName}}</span>
+      <span>{{item.value}}</span>
+      <span>{{item.valueCode}}</span>
+    </a>
+  </li>
+</ul>
+-->
+
+<h3 *ngIf="showSpinner === true"> Analyzing LFT Observations for Patient <i> {{ selectedPatient.patientId }} {{ selectedPatient.firstName }} {{ selectedPatient.lastName }} ... </i> </h3>
+
+<mat-spinner *ngIf="showSpinner === true"></mat-spinner>
+
+<h3 *ngIf="showNoObservationsResults"> <strong> No LFT Observations found for Patient
+  {{ selectedPatient.patientId }} {{ selectedPatient.firstName }} {{ selectedPatient.lastName }}, please select a different patient </strong></h3>
+<h3 *ngIf="showObservationsResults"> <strong> LFT Observations for Patient <mark> {{ selectedPatient.patientId }} {{ selectedPatient.firstName }} {{ selectedPatient.lastName }} </mark> </strong></h3>
+<mat-table #table [dataSource]="datsource" *ngIf="showObservationsResults">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- id Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> <strong> Observation Id </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+  </ng-container>
+
+  <!-- encounter Column -->
+  <ng-container matColumnDef="encounter">
+    <mat-header-cell *matHeaderCellDef> <strong> Encounter  </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.encounter}} </mat-cell>
+  </ng-container>
+
+  <!-- date Column -->
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> <strong> Date </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.date | date}} </mat-cell>
+  </ng-container>
+
+  <!-- loincCode Column -->
+  <ng-container matColumnDef="loincCode">
+    <mat-header-cell *matHeaderCellDef> <strong> Loinc Code </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.loincCode}} </mat-cell>
+  </ng-container>
+
+  <!-- testName Column -->
+  <ng-container matColumnDef="testName">
+    <mat-header-cell *matHeaderCellDef> <strong> Test Name </strong>  </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.testName}} </mat-cell>
+  </ng-container>
+
+  <!-- value Column -->
+  <ng-container matColumnDef="value">
+    <mat-header-cell *matHeaderCellDef> <strong> Value </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
+  </ng-container>
+
+  <!-- valueCode Column -->
+  <ng-container matColumnDef="valueCode">
+    <mat-header-cell *matHeaderCellDef> <strong> Value Code </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.valueCode}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+
+<h3 *ngIf="showNoAnalysisResults"> <strong> No LFT Interpretation Analysis Generated for Patient
+  {{ selectedPatient.patientId }} {{ selectedPatient.firstName }} {{ selectedPatient.lastName }}, please select a different patient </strong></h3>
+<h3 *ngIf="showAnalysisResults"> <strong> LFT Interpretation Analysis for Patient
+  <mark> {{ selectedPatient.patientId }} {{ selectedPatient.firstName }} {{ selectedPatient.lastName }} </mark> </strong></h3>
+<mat-table #table [dataSource]="analysisDatasource" *ngIf="showAnalysisResults">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- title Column -->
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef> <strong> Rule </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let analysiElement"> {{analysiElement.title}} </mat-cell>
+  </ng-container>
+
+  <!-- reference_str Column -->
+  <ng-container matColumnDef="reference_str">
+    <mat-header-cell *matHeaderCellDef> <strong> Reference </strong> </mat-header-cell>
+    <mat-cell *matCellDef="let analysiElement"> {{analysiElement.reference_str}} </mat-cell>
+  </ng-container>
+
+  <!-- reference_url Column -->
+  <ng-container matColumnDef="reference_url">
+    <mat-header-cell *matHeaderCellDef>  URL  </mat-header-cell>
+    <mat-cell *matCellDef="let analysiElement"> <a> {{analysiElement.reference_url}} </a> </mat-cell>
+  </ng-container>
+
+  <!-- simple Column -->
+  <ng-container matColumnDef="simple">
+    <mat-header-cell *matHeaderCellDef>  Simple  </mat-header-cell>
+    <mat-cell *matCellDef="let analysiElement"> {{analysiElement.simple}}  </mat-cell>
+  </ng-container>
+
+  <!-- simple Column -->
+  <ng-container matColumnDef="detail">
+    <mat-header-cell *matHeaderCellDef>  Details  </mat-header-cell>
+    <mat-cell *matCellDef="let analysiElement"> {{analysiElement.detail}}  </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="analysidDisplayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: analysidDisplayedColumns;"></mat-row>
+</mat-table>
+

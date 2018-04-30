@@ -1,0 +1,24 @@
+<h1>Angular5 Reference App - Maksood Mohiuddin</h1>
+<div>
+
+  <input type="checkbox" id="fhirsearch" [checked]="showFHIRSearch" (click)="toggleFHIRSearch()">
+  <label for="fhirsearch">FHIR Search</label>
+
+  <input type="checkbox" id="localSearch" [checked]="showLocalSearch" (click)="toggleLocalSearch()">
+  <label for="localSearch">Use Sample Dataset </label>
+
+  <input type="checkbox" id="downloader" [checked]="showDownloader" (click)="toggleDownloader()">
+  <label for="downloader">Downloader</label>
+
+  <input type="checkbox" id="uploader" [checked]="showUploader" (click)="toggleUploader()">
+  <label for="uploader">Uploader</label>
+
+
+</div>
+
+<app-package-search *ngIf="showFHIRSearch"></app-package-search>
+<app-main *ngIf="showLocalSearch"></app-main>
+<app-messages></app-messages>
+<app-downloader *ngIf="showDownloader"></app-downloader>
+<app-uploader *ngIf="showUploader"></app-uploader>
+

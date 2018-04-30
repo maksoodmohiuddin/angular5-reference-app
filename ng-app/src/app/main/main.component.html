@@ -1,0 +1,28 @@
+<h3>Get Patients From Sample Datasets </h3>
+<div>
+  <button (click)="clear(); showSearchResults()">Get Sample Patients Search Results</button>
+
+  <ul class="search">
+    <li *ngFor="let patient of results">
+      <a (click)="showObservationResults(patient)">
+        <span class="badge">{{ patient.id || -1 }}</span>
+        <span>{{patient.name[0].family}}</span>
+        <span>{{patient.name[0].given[0]}}</span>
+      </a>
+    </li>
+  </ul>
+
+  <h3 *ngIf="showObservations">Observations for pateint id: {{selectedPatient.id}}</h3>
+
+  <ul class="search">
+    <li *ngFor="let test of observations">
+      <a (click)="showObservationResults(test)">
+        <span class="tile">{{ test.id || -1 }}</span>
+        <span>{{test.name[0].family}}</span>
+      </a>
+    </li>
+  </ul>
+
+
+</div>
+<p *ngIf="error" class="error">{{error | json}}</p>
