@@ -15,6 +15,7 @@ pipeline {
           steps {
             sh 'echo "MWA Demo Running Test"'
             dir ('ng-app') {
+                sh 'export PATH=/sbin:/usr/sbin:/usr/bin:/usr/local/bin'
                 sh 'npm install'
                 sh 'npm test'
             }
