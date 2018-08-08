@@ -14,8 +14,9 @@ pipeline {
     stage('Test') {
           steps {
             sh 'echo "MWA Demo Running Test"'
-            sh 'cd ng-app'
-            sh 'ls'
+            dir ('ng-app') {
+                sh 'npm test'
+            }
           }
         }
   }
