@@ -15,7 +15,7 @@ pipeline {
           steps {
             sh 'echo "MWA Demo Running Test"'
             sh 'cd ng-app'
-            sh 'npm test'
+            sh 'ls'
           }
         }
   }
