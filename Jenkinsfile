@@ -15,7 +15,8 @@ pipeline {
           steps {
             sh 'echo "MWA Demo Running Test"'
             dir ('ng-app') {
-                sh 'ls'
+                sh 'npm install'
+                sh 'npm test'
             }
           }
         }
