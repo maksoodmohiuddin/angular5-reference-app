@@ -24,7 +24,7 @@
         <entry file="file://$PROJECT_DIR$/ng-app/src/app/app.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="40" lean-forward="false" selection-start-line="0" selection-start-column="40" selection-end-line="0" selection-end-column="40" />
+              <caret line="0" column="39" lean-forward="false" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -289,12 +289,12 @@
       <workItem from="1529623360273" duration="665000" />
       <workItem from="1533065698929" duration="3768000" />
       <workItem from="1533671911636" duration="1952000" />
-      <workItem from="1533741339759" duration="1919000" />
+      <workItem from="1533741339759" duration="2065000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10837000" />
+    <option name="totallyTimeSpent" value="10983000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="48" width="1440" height="800" extended-state="0" />
@@ -723,7 +723,7 @@
     <entry file="file://$PROJECT_DIR$/ng-app/src/app/app.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="40" lean-forward="false" selection-start-line="0" selection-start-column="40" selection-end-line="0" selection-end-column="40" />
+          <caret line="0" column="39" lean-forward="false" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
           <folding />
         </state>
       </provider>
